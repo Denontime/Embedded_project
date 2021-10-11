@@ -51,8 +51,3 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-GPIO_EXTI
-GPIO_Input_KEY
-GPIO_Output_LEDRGB
-SysTick_Delay
-USART_CTL_RGB

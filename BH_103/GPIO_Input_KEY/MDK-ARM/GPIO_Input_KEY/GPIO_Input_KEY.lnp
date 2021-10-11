@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+".\gpio_input_key\startup_stm32f103xe.o"
+".\gpio_input_key\main.o"
+".\gpio_input_key\gpio.o"
+".\gpio_input_key\stm32f1xx_it.o"
+".\gpio_input_key\stm32f1xx_hal_msp.o"
+".\gpio_input_key\stm32f1xx_hal_gpio_ex.o"
+".\gpio_input_key\stm32f1xx_hal_tim.o"
+".\gpio_input_key\stm32f1xx_hal_tim_ex.o"
+".\gpio_input_key\stm32f1xx_hal.o"
+".\gpio_input_key\stm32f1xx_hal_rcc.o"
+".\gpio_input_key\stm32f1xx_hal_rcc_ex.o"
+".\gpio_input_key\stm32f1xx_hal_gpio.o"
+".\gpio_input_key\stm32f1xx_hal_dma.o"
+".\gpio_input_key\stm32f1xx_hal_cortex.o"
+".\gpio_input_key\stm32f1xx_hal_pwr.o"
+".\gpio_input_key\stm32f1xx_hal_flash.o"
+".\gpio_input_key\stm32f1xx_hal_flash_ex.o"
+".\gpio_input_key\stm32f1xx_hal_exti.o"
+".\gpio_input_key\system_stm32f1xx.o"
+".\gpio_input_key\led_rgb.o"
+".\gpio_input_key\key.o"
+--strict --scatter ".\GPIO_Input_KEY\GPIO_Input_KEY.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "GPIO_Input_KEY.map" -o .\GPIO_Input_KEY\GPIO_Input_KEY.axf
