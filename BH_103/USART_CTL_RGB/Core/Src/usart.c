@@ -119,6 +119,20 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
 /* USER CODE BEGIN 1 */
 
+PUTCHAR_PROTOTYPE
+{
+  HAL_UART_Transmit(&huart1, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
+  return ch;
+}
+
+GETCHAR_PROTOTYPE
+{
+  uint8_t  ch;
+  HAL_UART_Receive(&huart1,(uint8_t *)&ch, 1, HAL_MAX_DELAY);
+  return  ch;
+}
+
+
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

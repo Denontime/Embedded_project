@@ -26,15 +26,25 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include <stdio.h>
+#include "stdio.h"
 
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
-extern UART_HandleTypeDef huart1;
-
 /* USER CODE BEGIN Private defines */
+
+#ifdef __GNUC__
+    #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+    #define GETCHAR_PROTOTYPE int __io_getchar(FILE *f)
+#else
+    #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)   
+    #define GETCHAR_PROTOTYPE int fgetc(FILE *f)
+#endif
+
+
+extern UART_HandleTypeDef huart1;
+extern uint8_t pData;
 
 /* USER CODE END Private defines */
 

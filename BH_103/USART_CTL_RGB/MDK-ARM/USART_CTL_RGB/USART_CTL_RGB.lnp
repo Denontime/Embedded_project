@@ -21,7 +21,7 @@
 "usart_ctl_rgb\stm32f1xx_hal_exti.o"
 "usart_ctl_rgb\system_stm32f1xx.o"
 "usart_ctl_rgb\led_rgb.o"
---strict --scatter "USART_CTL_RGB\USART_CTL_RGB.sct"
+--library_type=microlib --strict --scatter "USART_CTL_RGB\USART_CTL_RGB.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "USART_CTL_RGB.map" -o USART_CTL_RGB\USART_CTL_RGB.axf

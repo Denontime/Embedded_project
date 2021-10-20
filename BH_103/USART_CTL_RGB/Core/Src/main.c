@@ -20,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usart.h"
-#include "gpio.h"
+#include "led_rgb.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -56,6 +56,18 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+uint8_t pData = 0;
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) // HUART1回调函数
+{
+	if( huart == &huart1 )
+	{
+		HAL_UART_Receive_IT( &huart1, &pData, 1);
+        printf("接收到字符：%d \n", pData);
+        Led_Set(LED_GPIO_Port,Led_SetColor((pData)));
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -87,16 +99,22 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  HAL_UART_Receive_IT( &huart1, &pData, 1); // 串口中断接收函数
   /* USER CODE BEGIN 2 */
+  
 
   /* USER CODE END 2 */
-
+  
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-
+      
+//    recv_ch = getchar();    // 轮询接收模式
+//    printf("接收到字符：%d \n", recv_ch);
+//    Led_Set(LED_GPIO_Port,Led_SetColor((int)recv_ch));
+     
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -159,6 +177,7 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
+#define  USE_FULL_ASSERT
 #ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
@@ -172,6 +191,7 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    printf("Wrong parameters value: file %s on line %d\r\n", file, line);
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

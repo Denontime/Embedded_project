@@ -9,7 +9,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "led_rgb.h"
 
-LED_Color_TypeDef Led_Color = LED_RED;
+int Led_Color = 0;
 
 void Led_On(GPIO_TypeDef* GPIOx,uint16_t Led_Pin)
 {
@@ -37,7 +37,7 @@ void Led_Set(GPIO_TypeDef* GPIOx,uint16_t Led_Pin)
     HAL_GPIO_WritePin(GPIOx, Led_Pin,GPIO_PIN_RESET);
 }
 
-uint16_t Led_SetColor(LED_Color_TypeDef led_color)
+uint16_t Led_SetColor(int led_color)
 {
     uint16_t Color = 0x00;
     switch(led_color)

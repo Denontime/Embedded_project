@@ -1,6 +1,0 @@
---c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include
--I.\RTE\_SysTick_Delay
--ID:\Keil5-Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
--ID:\Keil5-Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include
--D__UVISION_VERSION="526" -D_RTE_ -DSTM32F10X_HD -DUSE_HAL_DRIVER -DSTM32F103xE
--o systick_delay\systick_exti.o --omf_browse systick_delay\systick_exti.crf --depend systick_delay\systick_exti.d "..\Core\Src\SysTick_exti.c"

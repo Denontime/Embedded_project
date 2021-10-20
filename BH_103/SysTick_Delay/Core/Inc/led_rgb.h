@@ -33,7 +33,7 @@ typedef enum
   LED_WHITE         = 7
 } LED_Color_TypeDef;
 
-extern LED_Color_TypeDef Led_Color;
+extern int Led_Color;
 extern int led_delay_ms;
 
 /* USER CODE END Private defines */
@@ -44,7 +44,7 @@ void Led_All_Off(void);
 void Led_Toggle(GPIO_TypeDef* GPIOx,uint16_t Led_Pin);
 void Led_Set(GPIO_TypeDef* GPIOx,uint16_t Led_Pin);
 void LED_Blink(void);
-uint16_t Led_SetColor(LED_Color_TypeDef Led_Color);
+uint16_t Led_SetColor(int Led_Color);
 uint16_t Led_Next_Color(void);
 uint16_t Led_Prev_Color(void);
 

@@ -29,7 +29,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"
-
+#include <stdio.h>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -64,6 +64,7 @@ void Error_Handler(void);
 #define LED_B_GPIO_Port GPIOB
 #define LED_R_Pin GPIO_PIN_5
 #define LED_R_GPIO_Port GPIOB
+#define LED_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
