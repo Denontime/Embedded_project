@@ -32,10 +32,12 @@ extern "C" {
 
 /* USER CODE END Includes */
 
-extern UART_HandleTypeDef huart1;
-extern uint8_t pData;
-
 /* USER CODE BEGIN Private defines */
+
+#define BUFFER_SIZE  100  
+
+extern UART_HandleTypeDef huart1;
+extern uint8_t rx_buffer[BUFFER_SIZE];
 
 /* USER CODE END Private defines */
 
@@ -43,6 +45,8 @@ void MX_USART1_UART_Init(void);
 void DMA_printf(const char *format, ...);
 
 /* USER CODE BEGIN Prototypes */
+
+
 
 /* USER CODE END Prototypes */
 

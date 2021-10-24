@@ -57,6 +57,15 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+uint8_t pData = 0;
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if( huart == &huart1 )
+    {
+        HAL_UART_Transmit( &huart1 , (uint8_t *)&pData , 1, 0xFFFF);
+        HAL_UART_Receive_DMA( &huart1, &pData, 1);
+    }
+}
 
 /* USER CODE END 0 */
 
@@ -91,10 +100,22 @@ int main(void)
     MX_DMA_Init();
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
-    HAL_UART_Receive_IT(&huart1,rx_buffer,1);
 
+    // HAL_UART_Transmit_DMA( &huart1, (uint8_t *)"hello DISCO by DMA\r\n", sizeof("hello DISCO by DMA\r\n") );
     int a = 10;
+
     DMA_printf("hello%d  \n", a);
+    uint8_t buffer[20];
+    HAL_UART_Transmit_DMA(&huart1, buffer, 20);
+    
+    void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) 
+{
+if(huart->Instance == USART1)  //判断是否是串口1接受中断
+ {   
+      HAL_UART_Transmit_DMA(&huart1,buffer,20);
+ }
+}
+
 
 
     /* USER CODE END 2 */
