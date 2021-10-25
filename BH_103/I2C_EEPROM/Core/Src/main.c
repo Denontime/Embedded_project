@@ -22,6 +22,8 @@
 #include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
+#include "time.h"
+#include "eeprom.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -92,6 +94,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
   
   printf("hello");
+  HALIIC_WriteByteToSlave(I2Cx_EEPROM_ADDRESS,EEP_FirstAddr,0xAC);
+  
+  HAL_Delay(500);
+  
+  uint8_t rx;
+  HALIIC_ReadByteFromSlave(I2Cx_EEPROM_ADDRESS,EEP_FirstAddr,&rx);
 
   /* USER CODE END 2 */
 
@@ -100,6 +108,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+      
+    // Uinx2UTC(1635170354);
+    printf("hello   %x\n",rx);
     
     HAL_Delay(1000);
     /* USER CODE BEGIN 3 */

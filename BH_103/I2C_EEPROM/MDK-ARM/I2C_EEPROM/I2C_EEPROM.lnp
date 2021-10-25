@@ -22,6 +22,8 @@
 "i2c_eeprom\stm32f1xx_hal_tim_ex.o"
 "i2c_eeprom\stm32f1xx_hal_uart.o"
 "i2c_eeprom\system_stm32f1xx.o"
+"i2c_eeprom\eeprom.o"
+"i2c_eeprom\time.o"
 --library_type=microlib --strict --scatter "I2C_EEPROM\I2C_EEPROM.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
