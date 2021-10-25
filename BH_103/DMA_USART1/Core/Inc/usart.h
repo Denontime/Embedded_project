@@ -34,7 +34,7 @@ extern "C" {
 
 /* USER CODE BEGIN Private defines */
 
-#define BUFFER_SIZE  100  
+#define BUFFER_SIZE  10
 
 extern UART_HandleTypeDef huart1;
 extern uint8_t rx_buffer[BUFFER_SIZE];

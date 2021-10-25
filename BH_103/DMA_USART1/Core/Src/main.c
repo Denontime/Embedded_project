@@ -91,7 +91,7 @@ int main(void)
     MX_DMA_Init();
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
-    HAL_UART_Receive_IT(&huart1,rx_buffer,1);
+
 
     int a = 10;
     DMA_printf("hello%d  \n", a);
@@ -169,6 +169,7 @@ void Error_Handler(void)
     /* USER CODE END Error_Handler_Debug */
 }
 
+#define USE_FULL_ASSERT
 #ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
@@ -182,6 +183,7 @@ void assert_failed(uint8_t *file, uint32_t line)
     /* USER CODE BEGIN 6 */
     /* User can add his own implementation to report the file name and line number,
        ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    DMA_printf("Wrong parameters value: file %s on line %d\r\n", file, line);
     /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

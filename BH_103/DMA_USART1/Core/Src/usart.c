@@ -175,27 +175,15 @@ void DMA_printf(const char *format, ...)    // 自定义DMA打印函数，使用stdarg.h库
     HAL_UART_Transmit_DMA(&huart1, (uint8_t *)DMA_PRINTF_BUFF, length);
 }
 
-uint8_t rx_buffer[BUFFER_SIZE]={0};  //接收数据缓存数组
+uint8_t rx_buffer[BUFFER_SIZE];  //接收数据缓存数组
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef * huart)
 {
     if(huart == &huart1)  //判断是否是串口1接受中断
     {
-        HAL_UART_Receive_DMA( &huart1, rx_buffer, 1);
-        HAL_UART_Transmit_DMA(&huart1, rx_buffer, BUFFER_SIZE);
-        HAL_UART_Receive_IT(&huart1, (uint8_t *)rx_buffer, 1);
+        HAL_UART_Transmit_DMA(&huart1, (uint8_t*)rx_buffer, BUFFER_SIZE);
     }
 }
-
-//uint8_t pData[20] = {0};
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-//{
-//    if( huart == &huart1 )
-//    {
-//        HAL_UART_Transmit( &huart1 , (uint8_t *)&pData , 1, 0xFFFF);
-//        HAL_UART_Receive_DMA( &huart1, &pData, 1);
-//    }
-//}
 
 /* USER CODE END 1 */
 
