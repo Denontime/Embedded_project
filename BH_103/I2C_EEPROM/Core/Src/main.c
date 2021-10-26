@@ -58,7 +58,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+ 
 /* USER CODE END 0 */
 
 /**
@@ -94,12 +94,25 @@ int main(void)
   /* USER CODE BEGIN 2 */
   
   printf("hello");
-  HALIIC_WriteByteToSlave(I2Cx_EEPROM_ADDRESS,EEP_FirstAddr,0xAC);
   
-  HAL_Delay(500);
+  uint8_t tx[10] = "1635170354";
+  //uint8_t tx[16] = {48};
+  uint8_t rh_buff[5] = {0};
+  uint8_t rl_buff[5] = {0};
+
+//  HALIIC_WriteByteToSlave(I2Cx_EEPROM_ADDRESS,EEP_FirstAddr,0xaa);
+//  HALIIC_WriteMultByteToSlave(I2Cx_EEPROM_ADDRESS,0,10,&write_buff[0]);
+  AT24C02_Write_nBytes( 0, &tx[0], 10 );
+//  HAL_Delay(10);
+//  AT24C02_Write_nBytes( 5, &tx[5], 5 );
+//  HAL_Delay(10);
   
-  uint8_t rx;
-  HALIIC_ReadByteFromSlave(I2Cx_EEPROM_ADDRESS,EEP_FirstAddr,&rx);
+  uint32_t a = 1635170354;
+  printf("%d",a);
+//  HALIIC_ReadByteFromSlave(I2Cx_EEPROM_ADDRESS,EEP_FirstAddr,&rx);
+//  HALIIC_ReadMultByteFromSlave(I2Cx_EEPROM_ADDRESS,0,10,read_buff);
+  
+
 
   /* USER CODE END 2 */
 
@@ -110,7 +123,11 @@ int main(void)
     /* USER CODE END WHILE */
       
     // Uinx2UTC(1635170354);
-    printf("hello   %x\n",rx);
+    AT24C02_Read_nBytes( 0, rh_buff, 8 );
+    HAL_Delay(10);
+    AT24C02_Read_nBytes( 16, rl_buff, 5 );
+    HAL_Delay(10);
+    printf("eeprom----%s%s", rh_buff, rl_buff);
     
     HAL_Delay(1000);
     /* USER CODE BEGIN 3 */

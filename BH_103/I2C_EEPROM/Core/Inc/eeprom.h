@@ -25,18 +25,18 @@ extern "C" {
 
 /* USER CODE BEGIN Private defines */
 
-#define EEP_FirstAddr     0x00
+#define I2C_PAGE_SIZE_8BIT  8
+#define BYTE_SIZE  8
 #define I2Cx_EEPROM_ADDRESS 0xA0
+
 
 /* USER CODE END Private defines */
 
 
 /* USER CODE BEGIN Prototypes */
 
-uint8_t HALIIC_WriteByteToSlave(uint8_t I2C_Addr,uint8_t reg,uint8_t data);
-uint8_t HALIIC_ReadByteFromSlave(uint8_t I2C_Addr,uint8_t reg,uint8_t *buf);
-uint8_t HALIIC_ReadMultByteFromSlave(uint8_t dev, uint8_t reg, uint8_t length, uint8_t *data);
-uint8_t HALIIC_WriteMultByteToSlave(uint8_t dev, uint8_t reg, uint8_t length, uint8_t* data);
+uint8_t AT24C02_Read_nBytes(uint8_t addr, uint8_t *data, uint8_t length);
+uint8_t AT24C02_Write_nBytes(uint8_t addr, uint8_t *data, uint8_t length);
 
 /* USER CODE END Prototypes */
 

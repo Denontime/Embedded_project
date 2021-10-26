@@ -11,34 +11,36 @@
 
 /* USER CODE BEGIN 0 */
 
-uint8_t HALIIC_WriteByteToSlave(uint8_t I2C_Addr,uint8_t reg,uint8_t data)
+uint8_t AT24C02_Write_nBytes(uint8_t addr, uint8_t *data, uint8_t length)
 {
-  uint8_t  *pData;
-  pData = &data;
-  return HAL_I2C_Mem_Write(&hi2c1, I2C_Addr, reg, I2C_MEMADD_SIZE_8BIT, pData, 1, 100);
-}
-
-uint8_t HALIIC_ReadByteFromSlave(uint8_t I2C_Addr,uint8_t reg,uint8_t *buf)
-{
-  return HAL_I2C_Mem_Read(&hi2c1, I2C_Addr, reg, I2C_MEMADD_SIZE_8BIT, buf, 1, 100);
+    uint8_t len;
+    for(len = 0; len < length; len = len + 8){
+        HAL_I2C_Mem_Write( &hi2c1, I2Cx_EEPROM_ADDRESS, (addr+len) * BYTE_SIZE, I2C_MEMADD_SIZE_8BIT, &data[len], I2C_PAGE_SIZE_8BIT, 1000 );
+        HAL_Delay(10);
+    }
+    HAL_I2C_Mem_Write( &hi2c1, I2Cx_EEPROM_ADDRESS, (addr+len) * BYTE_SIZE, I2C_MEMADD_SIZE_8BIT, &data[len], length-len, 1000 );
+    HAL_Delay(10);
+    return (1);
+//    if( HAL_I2C_Mem_Write( &hi2c1, I2Cx_EEPROM_ADDRESS, addr * I2C_MEMADD_SIZE_8BIT, I2C_MEMADD_SIZE_8BIT, data, I2C_PAGE_SIZE_8BIT, 1000 ) == HAL_OK )
+//        return 0;
+//    else
+//        return -1;
 }
  
-uint8_t HALIIC_ReadMultByteFromSlave(uint8_t dev, uint8_t reg, uint8_t length, uint8_t *data)
+uint8_t AT24C02_Read_nBytes(uint8_t addr, uint8_t *data, uint8_t length)
 {
-  return HAL_I2C_Mem_Read(&hi2c1, dev, reg, I2C_MEMADD_SIZE_8BIT, data, length, 200);
+    if( HAL_I2C_Mem_Read( &hi2c1, I2Cx_EEPROM_ADDRESS, addr * I2C_MEMADD_SIZE_8BIT, I2C_MEMADD_SIZE_8BIT, data, length, 1000 ) == HAL_OK )
+        return 0;
+    else
+        return -1;
 }
-
-uint8_t HALIIC_WriteMultByteToSlave(uint8_t dev, uint8_t reg, uint8_t length, uint8_t* data)
-{
-  return HAL_I2C_Mem_Write(&hi2c1, dev, reg, I2C_MEMADD_SIZE_8BIT, data, length, 200);
-}
-
 
 /* USER CODE END 0 */
 
 
 
 /* USER CODE BEGIN 1 */
+
 
 /* USER CODE END 1 */
 
