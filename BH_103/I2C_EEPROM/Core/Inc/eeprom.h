@@ -27,7 +27,7 @@ extern "C" {
 
 #define I2C_PAGE_SIZE_8BIT  8
 #define BYTE_SIZE  8
-#define I2Cx_EEPROM_ADDRESS 0xA0
+#define AT24C02_ADDR 0xA0
 
 
 /* USER CODE END Private defines */

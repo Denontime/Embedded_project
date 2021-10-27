@@ -157,41 +157,25 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>21</LineNumber>
+          <LineNumber>135</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134218300</Address>
+          <Address>134224906</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Core\Src\eeprom.c</Filename>
+          <Filename>../Core/Src/main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\I2C_EEPROM\../Core/Src/eeprom.c\21</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>17</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134218250</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Core\Src\eeprom.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\I2C_EEPROM\../Core/Src/eeprom.c\17</Expression>
+          <Expression>\\I2C_EEPROM\../Core/Src/main.c\135</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>len</ItemText>
+          <ItemText>len,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
@@ -201,17 +185,17 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>length</ItemText>
+          <ItemText>length,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>length-len</ItemText>
+          <ItemText>rh_buff,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>(addr+len) * BYTE_SIZE</ItemText>
+          <ItemText>I2C_Buffer_Write,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
