@@ -123,7 +123,7 @@ PUTCHAR_PROTOTYPE
 GETCHAR_PROTOTYPE
 {
     uint8_t  ch;
-    HAL_UART_Receive(&huart1,(uint8_t *)&ch, 1, HAL_MAX_DELAY);
+    HAL_UART_Receive(&huart1, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
     return  ch;
 }
 

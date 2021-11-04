@@ -26,57 +26,36 @@ uint8_t W25X_ReleasePowerDown  = 0xAB;       // 移除掉电
 uint8_t W25X_DeviceID          = 0xAB;       // 设备ID
 uint8_t W25X_ManufactDeviceID  = 0x90;       // 制造商/设备ID
 uint8_t W25X_JedecDeviceID     = 0x9F;       // 读ID
-uint8_t Dummy_Byte             = 0xFF;
+/*其它*/
+
+uint8_t Dummy_Byte     = 0xFF;
+
+/* W25Q64的指令 */
+uint8_t m_addr[3]  = {0,0,0};					// 测试地址0x000000
+uint32_t add = 0x000000;
+
+uint8_t id = 0x9F;
+
+uint8_t w25x_ID[3] = {0,0,0};						    // 接收缓存
+uint8_t temp_wdata[5] = {0x99,0x88,0x77,0x66,0x55};		// 需要写入的数据
+uint8_t temp_rdata[5] = {0,0,0,0,0};					// 读出数据保存的buff
 
 /* 读ID */
-uint32_t w25x_ReadFlashID(void)
+void w25x_ReadID(void)
 {
-    uint32_t Device_id = 0;
-    uint8_t w25x_ID[3] = {0, 0, 0};                         // 接收缓存
-    
-    FLASH_SPI_CS_ENABLE();                                                      // 使能CS
-    HAL_SPI_Transmit(&MY_HSPI, &W25X_JedecDeviceID, 1, SPI_FLASH_TIMEOUT);      // 读ID发送指令
-    HAL_SPI_Receive(&MY_HSPI, w25x_ID, 3, SPI_FLASH_TIMEOUT);                   // 读取ID
-    FLASH_SPI_CS_DISABLE();                                                     // 失能CS
-    
-    Device_id = (w25x_ID[0] << 16) | (w25x_ID[1] << 8) | w25x_ID[2];
-    return Device_id;
-}
-
- /**
-  * @brief  读取FLASH Device ID
-  * @param 	无
-  * @retval FLASH Device ID
-  */
-uint32_t w25x_ReadDeviceID(void)
-{
-  uint8_t Temp = 0;
-
-  /* Select the FLASH: Chip Select low */
-  FLASH_SPI_CS_ENABLE();
-
-  /* Send "RDID " instruction */
-  HAL_SPI_Transmit(&MY_HSPI, &W25X_DeviceID, 1, SPI_FLASH_TIMEOUT);
-  HAL_SPI_Transmit(&MY_HSPI, &Dummy_Byte, 1, SPI_FLASH_TIMEOUT);
-    HAL_SPI_Transmit(&MY_HSPI, &Dummy_Byte, 1, SPI_FLASH_TIMEOUT);
-    HAL_SPI_Transmit(&MY_HSPI, &Dummy_Byte, 1, SPI_FLASH_TIMEOUT);
-  
-  /* Read a byte from the FLASH */
-  HAL_SPI_Receive(&MY_HSPI, &Temp, 3, SPI_FLASH_TIMEOUT);  
-
-  /* Deselect the FLASH: Chip Select high */
-  FLASH_SPI_CS_DISABLE();
-
-  return (uint32_t)Temp;
+    FLASH_SPI_CS_ENABLE();	                                                    // 使能CS
+    HAL_SPI_Transmit(&MY_HSPI, &W25X_JedecDeviceID, 1, SPI_FLASH_TIMEOUT);		// 读ID发送指令
+    HAL_SPI_Receive(&MY_HSPI, w25x_ID, 3, SPI_FLASH_TIMEOUT);				    // 读取ID
+    FLASH_SPI_CS_DISABLE();	                                                    // 失能CS
 }
 
 /* 检查是否繁忙 */
 void w25x_CheckBusy(void)
 {
-    uint8_t FLASH_Status = 1;
-    uint32_t timeCount = 0;
+    uint8_t FLASH_Status=1;
+    uint32_t timeCount=0;
 
-    FLASH_SPI_CS_ENABLE();                                      // 使能CS
+    FLASH_SPI_CS_ENABLE();	                                    // 使能CS
 
     do
     {
@@ -85,12 +64,47 @@ void w25x_CheckBusy(void)
         {
             return ;
         }
-        HAL_SPI_Transmit(&MY_HSPI, &W25X_ReadStatusReg, 1, SPI_FLASH_TIMEOUT);          // 发送指令
-        HAL_SPI_Receive(&MY_HSPI, &FLASH_Status, 1, SPI_FLASH_TIMEOUT);                 // 读取
-    }
-    while((FLASH_Status & WIP_Flag) == WIP_Flag);
+        HAL_SPI_Transmit(&MY_HSPI, &W25X_ReadStatusReg, 1, SPI_FLASH_TIMEOUT);			// 发送指令
+        HAL_SPI_Receive(&MY_HSPI, &FLASH_Status, 1, SPI_FLASH_TIMEOUT);				    // 读取
+    } while((FLASH_Status & 0x01) == 0x01);
 
     FLASH_SPI_CS_DISABLE();                                     // 失能CS
+}
+
+/* 写入数据 */
+void w25x_WriteData(void)
+{
+    /* 检查是否繁忙 */
+    w25x_CheckBusy();
+    w25x_WriteEnable();                                /* 写使能 */
+
+    /* 擦除 */
+    w25x_SectorErase(0x000000);
+
+    /* 再次检查是否繁忙 */
+    w25x_CheckBusy();
+    w25x_WriteEnable();	                            /* 写使能 */
+
+    /* 写数据 */
+    FLASH_SPI_CS_ENABLE();	                                                    // 使能CS
+    HAL_SPI_Transmit(&MY_HSPI, &W25X_PageProgram, 1, SPI_FLASH_TIMEOUT);		// 发送指令
+    HAL_SPI_Transmit(&MY_HSPI, m_addr, 3, SPI_FLASH_TIMEOUT);				    // 地址
+    HAL_SPI_Transmit(&MY_HSPI, temp_wdata, 5, SPI_FLASH_TIMEOUT);			    // 写入数据
+    FLASH_SPI_CS_DISABLE(); 	                                                // 失能CS
+}
+
+/* 读取数据 */
+void w25x_ReadData(void)
+{
+    /* 检查是否繁忙 */
+    w25x_CheckBusy();
+
+    /* 开始读数据 */
+    FLASH_SPI_CS_ENABLE();	                                                    // 使能CS
+    HAL_SPI_Transmit(&MY_HSPI, &W25X_ReadData, 1, SPI_FLASH_TIMEOUT);			// 读发送指令
+    HAL_SPI_Transmit(&MY_HSPI, m_addr, 3, SPI_FLASH_TIMEOUT);				    // 地址
+    HAL_SPI_Receive(&MY_HSPI,  temp_rdata, 5, SPI_FLASH_TIMEOUT);			    // 拿到数据
+    FLASH_SPI_CS_DISABLE(); 	                                                // 失能CS
 }
 
 /**
@@ -101,9 +115,9 @@ void w25x_CheckBusy(void)
 void w25x_WriteEnable(void)
 {
     /* 写使能 */
-    FLASH_SPI_CS_ENABLE();                                                      // 使能CS
-    HAL_SPI_Transmit(&MY_HSPI, &W25X_WriteEnable, 1, SPI_FLASH_TIMEOUT);        // 发送指令
-    FLASH_SPI_CS_DISABLE();                                                     // 失能CS
+    FLASH_SPI_CS_ENABLE();	                                                    // 使能CS
+    HAL_SPI_Transmit(&MY_HSPI, &W25X_WriteEnable, 1, SPI_FLASH_TIMEOUT);		// 发送指令
+    FLASH_SPI_CS_DISABLE(); 	                                                // 失能CS
 }
 
 /**
@@ -116,16 +130,16 @@ void w25x_SectorErase(uint32_t SectorAddr)
     w25x_WriteEnable();
     w25x_CheckBusy();
 
-    uint8_t m_addr[3]  = {0, 0, 0};
+    uint8_t m_addr[3]  = {0,0,0};
     m_addr[0] = (SectorAddr & 0xFF0000) >> 16;
     m_addr[1] = (SectorAddr & 0xFF00) >> 8;
     m_addr[2] = SectorAddr & 0xFF;
 
     /* 擦除 */
-    FLASH_SPI_CS_ENABLE();                                                      // 使能CS
-    HAL_SPI_Transmit(&MY_HSPI, &W25X_SectorErase, 1, SPI_FLASH_TIMEOUT);        // 发送指令
-    HAL_SPI_Transmit(&MY_HSPI, m_addr, 3, SPI_FLASH_TIMEOUT);                   // 发送地址
-    FLASH_SPI_CS_DISABLE();                                                     // 失能CS
+    FLASH_SPI_CS_ENABLE();	                                                    // 使能CS
+    HAL_SPI_Transmit(&MY_HSPI, &W25X_SectorErase, 1, SPI_FLASH_TIMEOUT);		// 发送指令
+    HAL_SPI_Transmit(&MY_HSPI, m_addr, 3, SPI_FLASH_TIMEOUT);				    // 发送地址
+    FLASH_SPI_CS_DISABLE(); 	                                                // 失能CS
 
     w25x_CheckBusy();
 }
@@ -153,14 +167,14 @@ void w25x_BulkErase(void)
 
 /**
  * @brief  对FLASH按页写入数据，调用本函数写入数据前需要先擦除扇区
- * @param   pBuffer，要写入数据的指针
+ * @param	pBuffer，要写入数据的指针
  * @param WriteAddr，写入地址
  * @param  NumByteToWrite，写入数据长度，必须小于等于SPI_FLASH_PerWritePageSize
  * @retval 无
  */
 void w25x_PageWrite(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t NumByteToWrite)
 {
-    uint8_t m_addr[3]  = {0, 0, 0};
+    uint8_t m_addr[3]  = {0,0,0};
     m_addr[0] = (WriteAddr & 0xFF0000) >> 16;
     m_addr[1] = (WriteAddr & 0xFF00) >> 8;
     m_addr[2] = WriteAddr & 0xFF;
@@ -172,7 +186,7 @@ void w25x_PageWrite(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t NumByteToWrit
     FLASH_SPI_CS_ENABLE();
     /* 写页写指令*/
     HAL_SPI_Transmit(&MY_HSPI, &W25X_PageProgram, 1, SPI_FLASH_TIMEOUT);
-    HAL_SPI_Transmit(&MY_HSPI, m_addr, 3, SPI_FLASH_TIMEOUT);               // 发送地址
+    HAL_SPI_Transmit(&MY_HSPI, m_addr, 3, SPI_FLASH_TIMEOUT);				// 发送地址
 
     if(NumByteToWrite > SPI_FLASH_PerWritePageSize)
     {
@@ -181,7 +195,7 @@ void w25x_PageWrite(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t NumByteToWrit
     }
 
     /* 写入数据*/
-    HAL_SPI_Transmit(&MY_HSPI, pBuffer, NumByteToWrite, SPI_FLASH_TIMEOUT);             // 发送地址
+    HAL_SPI_Transmit(&MY_HSPI, pBuffer, NumByteToWrite, SPI_FLASH_TIMEOUT);				// 发送地址
 
     /* 停止信号 FLASH: CS 高电平 */
     FLASH_SPI_CS_DISABLE();
@@ -192,7 +206,7 @@ void w25x_PageWrite(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t NumByteToWrit
 
 /**
  * @brief  对FLASH写入数据，调用本函数写入数据前需要先擦除扇区
- * @param   pBuffer，要写入数据的指针
+ * @param	pBuffer，要写入数据的指针
  * @param  WriteAddr，写入地址
  * @param  NumByteToWrite，写入数据长度
  * @retval 无
@@ -286,14 +300,14 @@ void w25x_BufferWrite(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t NumByteToWr
 
 /**
  * @brief  读取FLASH数据
- * @param   pBuffer，存储读出数据的指针
+ * @param 	pBuffer，存储读出数据的指针
  * @param   ReadAddr，读取地址
  * @param   NumByteToRead，读取数据长度
  * @retval 无
  */
-void w25x_ReadData(uint8_t* pBuffer, uint32_t ReadAddr, uint16_t NumByteToRead)
+void SPI_FLASH_BufferRead(uint8_t* pBuffer, uint32_t ReadAddr, uint16_t NumByteToRead)
 {
-    uint8_t m_addr[3]  = {0, 0, 0};
+    uint8_t m_addr[3]  = {0,0,0};
     m_addr[0] = (ReadAddr & 0xFF0000) >> 16;
     m_addr[1] = (ReadAddr & 0xFF00) >> 8;
     m_addr[2] = ReadAddr & 0xFF;
@@ -303,38 +317,13 @@ void w25x_ReadData(uint8_t* pBuffer, uint32_t ReadAddr, uint16_t NumByteToRead)
 
     /* 发送 读 指令 */
     HAL_SPI_Transmit(&MY_HSPI, &W25X_ReadData, 1, SPI_FLASH_TIMEOUT);
-    HAL_SPI_Transmit(&MY_HSPI, m_addr, 3, SPI_FLASH_TIMEOUT);               // 发送地址
+    HAL_SPI_Transmit(&MY_HSPI, m_addr, 3, SPI_FLASH_TIMEOUT);				// 发送地址
 
     /* 读取数据 */
-    HAL_SPI_Receive(&MY_HSPI, pBuffer, NumByteToRead, SPI_FLASH_TIMEOUT);                   // 读取ID
+    HAL_SPI_Receive(&MY_HSPI, pBuffer, NumByteToRead, SPI_FLASH_TIMEOUT);				    // 读取ID
 
     /* 停止信号 FLASH: CS 高电平 */
     FLASH_SPI_CS_DISABLE();
 }
 
 
-//进入掉电模式
-void w25x_PowerDown(void)   
-{ 
-  /* 通讯开始：CS低 */
-  FLASH_SPI_CS_ENABLE();
-
-  /* 发送 掉电 命令 */
-  HAL_SPI_Transmit(&MY_HSPI, &W25X_PowerDown, 1, SPI_FLASH_TIMEOUT);
-
-  /*通讯结束：CS高 */
-  FLASH_SPI_CS_DISABLE();
-}   
-
-//唤醒
-void w25x_WAKEUP(void)   
-{
-  /*选择 FLASH: CS 低 */
-  FLASH_SPI_CS_ENABLE();
-
-  /* 发送 上电 命令 */
-  HAL_SPI_Transmit(&MY_HSPI, &W25X_ReleasePowerDown, 1, SPI_FLASH_TIMEOUT);
-
-   /* 停止信号 FLASH: CS 高 */
-  FLASH_SPI_CS_DISABLE();
-}   

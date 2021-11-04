@@ -17,6 +17,7 @@ extern "C" {
 #include "main.h"
 #include "spi.h"
 
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -24,22 +25,30 @@ extern "C" {
 
 /* USER CODE BEGIN Private defines */
 
-#define SPI_NSS_ENABLE();    HAL_GPIO_WritePin(FLASH_CS_GPIO_Port,FLASH_CS_Pin,GPIO_PIN_SET);
-#define SPI_NSS_DISABLE();   HAL_GPIO_WritePin(FLASH_CS_GPIO_Port,FLASH_CS_Pin,GPIO_PIN_RESET);
+#define FLASH_SPI_CS_DISABLE();    HAL_GPIO_WritePin(FLASH_CS_GPIO_Port,FLASH_CS_Pin,GPIO_PIN_SET);
+#define FLASH_SPI_CS_ENABLE();   HAL_GPIO_WritePin(FLASH_CS_GPIO_Port,FLASH_CS_Pin,GPIO_PIN_RESET);
 #define MY_HSPI          hspi1
 
-/* W25Q64的指令 */
-extern uint8_t w25x_read_id;				// 读ID
-extern uint8_t m_addr[3];					// 测试地址0x000000
-extern uint8_t check_addr;					// 检查线路是否繁忙
-extern uint8_t enable_write;				// 使能了才能改变芯片数据
-extern uint8_t erase_addr;					// 擦除命令
-extern uint8_t write_addr;					// 写数据命令
-extern uint8_t read_addr;					// 读数据命令
+#define  sFLASH_ID              0XEF4017    //W25Q64
 
-extern uint8_t temp_ID[5];					// 接收缓存
-extern uint8_t temp_wdata[5];		        // 需要写入的数据
-extern uint8_t temp_rdata[5];				// 读出数据保存的buff
+/* WIP(busy)标志，FLASH内部正在写入 */
+#define WIP_Flag                  0x01
+
+#define SPI_FLASH_PageSize              256
+#define SPI_FLASH_PerWritePageSize      256
+#define SPI_FLASH_TIMEOUT               100
+
+#define FLASH_ERROR(fmt,arg...)          printf("<<-FLASH-ERROR->> "fmt"\n",##arg)
+
+/* 获取缓冲区的长度 */
+#define TxBufferSize1   (countof(TxBuffer1) - 1)
+#define RxBufferSize1   (countof(TxBuffer1) - 1)
+#define countof(a)      (sizeof(a) / sizeof(*(a)))
+#define BufferSize      (countof(Tx_Buffer)-1)
+
+#define  FLASH_WriteAddress     0x00000
+#define  FLASH_ReadAddress      FLASH_WriteAddress
+#define  FLASH_SectorToErase    FLASH_WriteAddress
 
 /* USER CODE END Private defines */
 
@@ -47,10 +56,17 @@ extern uint8_t temp_rdata[5];				// 读出数据保存的buff
 
 /* USER CODE BEGIN Prototypes */
 
-void ReadID(void);
-void CheckBusy(void);
-void WriteData(void);
-void ReadData(void);
+uint32_t w25x_ReadFlashID(void);
+uint32_t w25x_ReadDeviceID(void);
+void w25x_CheckBusy(void);
+void w25x_WriteEnable(void);
+void w25x_BulkErase(void);
+void w25x_SectorErase(uint32_t SectorAddr);
+void w25x_PageWrite(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t NumByteToWrite);
+void w25x_BufferWrite(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t NumByteToWrite);
+void w25x_ReadData(uint8_t* pBuffer, uint32_t ReadAddr, uint16_t NumByteToRead);
+void w25x_PowerDown(void);
+void w25x_WAKEUP(void);
 
 /* USER CODE END Prototypes */
 
