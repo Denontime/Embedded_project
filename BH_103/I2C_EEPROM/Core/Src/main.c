@@ -59,6 +59,10 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+#define countof(a)      (sizeof(a) / sizeof(*(a)))
+#define BufferSize      (countof(Buffer_Write)-1)
+#define Addr            0x00
+
 /* USER CODE END 0 */
 
 /**
@@ -93,10 +97,11 @@ int main(void)
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
 
-    uint8_t Buffer_Write[256] = "And you,on your part,have no need of me.To you,I am nothing more than a fox like a hundred thousand other foxes.But if you tame me,then we shall need each other.To me,you will be unique in all the world.To you,I shall be unique in all the world.\n\n\n\0\0\0\0\0\0";
-    uint8_t Buffer_Read[256] = {0};
+    uint8_t Buffer_Write[] = "And you,on your part,have no need of me.To you,I am nothing more than a fox like a hundred thousand other foxes.\
+    But if you tame me,then we shall need each other.To me,you will be unique in all the world.To you,I shall be unique in all the world.\n";
+    uint8_t Buffer_Read[BufferSize] = {0};
 
-    AT24C02_Write_nBytes( 0, Buffer_Write, 255 );
+    AT24C02_Write_nBytes( Addr, Buffer_Write, BufferSize );
 
     /* USER CODE END 2 */
 
@@ -106,7 +111,7 @@ int main(void)
     {
         /* USER CODE END WHILE */
 
-        AT24C02_Read_nBytes( 0, Buffer_Read, 255 );
+        AT24C02_Read_nBytes( Addr, Buffer_Read, BufferSize );
 
         printf("%s", Buffer_Read);
 

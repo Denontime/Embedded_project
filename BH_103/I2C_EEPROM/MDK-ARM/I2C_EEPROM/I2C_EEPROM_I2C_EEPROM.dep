@@ -1,6 +1,6 @@
 Dependencies for Project 'I2C_EEPROM', Target 'I2C_EEPROM': (DO NOT MODIFY !)
 F (startup_stm32f103xe.s)(0x61769606)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_I2C_EEPROM-ID:\Keil5-Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil5-Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include--pd "__UVISION_VERSION SETA 526" --pd "_RTE_ SETA 1" --pd "STM32F10X_HD SETA 1"--list startup_stm32f103xe.lst --xref -o i2c_eeprom\startup_stm32f103xe.o --depend i2c_eeprom\startup_stm32f103xe.d)
-F (../Core/Src/main.c)(0x617947AF)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\Core\Inc -I ..\Drivers\STM32F1xx_HAL_Driver\Inc -I ..\Drivers\STM32F1xx_HAL_Driver\Inc\Legacy -I ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include -I ..\Drivers\CMSIS\Include-I.\RTE\_I2C_EEPROM-ID:\Keil5-Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil5-Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F10X_HD -DUSE_HAL_DRIVER -DSTM32F103xE-o i2c_eeprom\main.o --omf_browse i2c_eeprom\main.crf --depend i2c_eeprom\main.d)
+F (../Core/Src/main.c)(0x6183CB94)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\Core\Inc -I ..\Drivers\STM32F1xx_HAL_Driver\Inc -I ..\Drivers\STM32F1xx_HAL_Driver\Inc\Legacy -I ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include -I ..\Drivers\CMSIS\Include-I.\RTE\_I2C_EEPROM-ID:\Keil5-Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil5-Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F10X_HD -DUSE_HAL_DRIVER -DSTM32F103xE-o i2c_eeprom\main.o --omf_browse i2c_eeprom\main.crf --depend i2c_eeprom\main.d)
 I (..\Core\Inc\main.h)(0x6176A445)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h)(0x613A2E86)
 I (..\Core\Inc\stm32f1xx_hal_conf.h)(0x61769602)
@@ -33,7 +33,7 @@ I (..\Core\Inc\i2c.h)(0x61769601)
 I (..\Core\Inc\usart.h)(0x6176A5A3)
 I (..\Core\Inc\gpio.h)(0x61769601)
 I (..\Core\Inc\time.h)(0x6176BC68)
-I (..\Core\Inc\eeprom.h)(0x61794722)
+I (..\Core\Inc\eeprom.h)(0x6183CACC)
 F (../Core/Src/gpio.c)(0x617941C2)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\Core\Inc -I ..\Drivers\STM32F1xx_HAL_Driver\Inc -I ..\Drivers\STM32F1xx_HAL_Driver\Inc\Legacy -I ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include -I ..\Drivers\CMSIS\Include-I.\RTE\_I2C_EEPROM-ID:\Keil5-Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil5-Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F10X_HD -DUSE_HAL_DRIVER -DSTM32F103xE-o i2c_eeprom\gpio.o --omf_browse i2c_eeprom\gpio.crf --depend i2c_eeprom\gpio.d)
 I (..\Core\Inc\gpio.h)(0x61769601)
 I (..\Core\Inc\main.h)(0x6176A445)
@@ -615,9 +615,9 @@ I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_flash_ex.h)(0x613A2E86)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_i2c.h)(0x613A2E86)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_pwr.h)(0x613A2E86)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal_uart.h)(0x613A2E86)
-F (..\Core\Inc\eeprom.h)(0x61794722)()
+F (..\Core\Inc\eeprom.h)(0x6183CACC)()
 F (..\Core\Src\eeprom.c)(0x61794715)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\Core\Inc -I ..\Drivers\STM32F1xx_HAL_Driver\Inc -I ..\Drivers\STM32F1xx_HAL_Driver\Inc\Legacy -I ..\Drivers\CMSIS\Device\ST\STM32F1xx\Include -I ..\Drivers\CMSIS\Include-I.\RTE\_I2C_EEPROM-ID:\Keil5-Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-ID:\Keil5-Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F10X_HD -DUSE_HAL_DRIVER -DSTM32F103xE-o i2c_eeprom\eeprom.o --omf_browse i2c_eeprom\eeprom.crf --depend i2c_eeprom\eeprom.d)
-I (..\Core\Inc\eeprom.h)(0x61794722)
+I (..\Core\Inc\eeprom.h)(0x6183CACC)
 I (..\Core\Inc\main.h)(0x6176A445)
 I (..\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_hal.h)(0x613A2E86)
 I (..\Core\Inc\stm32f1xx_hal_conf.h)(0x61769602)

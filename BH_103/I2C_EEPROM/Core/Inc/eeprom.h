@@ -29,7 +29,6 @@ extern "C" {
 #define BYTE_SIZE  8
 #define AT24C02_ADDR 0xA0
 
-
 /* USER CODE END Private defines */
 
 

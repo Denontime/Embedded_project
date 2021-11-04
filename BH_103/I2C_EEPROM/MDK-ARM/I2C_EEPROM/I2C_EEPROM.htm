@@ -3,9 +3,9 @@
 <title>Static Call Graph - [I2C_EEPROM\I2C_EEPROM.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image I2C_EEPROM\I2C_EEPROM.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Oct 27 20:36:02 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Nov 04 20:01:28 2021
 <BR><P>
-<H3>Maximum Stack Usage =        688 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        680 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 main &rArr; AT24C02_Write_nBytes &rArr; HAL_I2C_Mem_Write &rArr; I2C_RequestMemoryWrite &rArr; I2C_WaitOnMasterAddressFlagUntilTimeout
 <P>
@@ -672,8 +672,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printf6.o(i.__0printf$6)
 </UL>
-<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 86 bytes, Stack size 512 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 688<LI>Call Chain = main &rArr; AT24C02_Write_nBytes &rArr; HAL_I2C_Mem_Write &rArr; I2C_RequestMemoryWrite &rArr; I2C_WaitOnMasterAddressFlagUntilTimeout
+<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 80 bytes, Stack size 504 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = main &rArr; AT24C02_Write_nBytes &rArr; HAL_I2C_Mem_Write &rArr; I2C_RequestMemoryWrite &rArr; I2C_WaitOnMasterAddressFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_I2C1_Init
